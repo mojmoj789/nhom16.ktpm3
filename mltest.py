@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Đọc dữ liệu từ file CSV
-file_path = '/ML_BTL/dataset4.csv' 
+file_path = 'C:\Users\Admin\Documents\GitHub\nhom16.ktpm3\dtset.csv' 
 df = pd.read_csv(file_path)
 
 #Lọc ra các cột cần thiết
