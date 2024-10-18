@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả dự đoán</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='result_style.css') }}">
+</head>
+<body>
+    <h1>Kết quả dự đoán</h1>
+    <p>{{ prediction_text }}</p>
+    <a href="/">Dự đoán lại</a>
+</body>
+</html>
