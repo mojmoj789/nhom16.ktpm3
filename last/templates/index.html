@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán giá nhà</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Dự đoán giá nhà</h2>
+        <form id="predictForm">
+            <label for="CRIM">CRIM (Tỷ lệ tội phạm bình quân đầu người):</label>
+            <input type="number" step="0.001" min="0" max="100" name="CRIM" required>
+            <small>Tỷ lệ tội phạm bình quân đầu người trong khu vực (đơn vị: %). Nhập từ 0 đến 100.</small>
+            
+            <label for="NOX">NOX (Nồng độ oxit nitric):</label>
+            <input type="number" step="0.001" min="0" max="1" name="NOX" required>
+            <small>Nồng độ oxit nitric trong không khí (đơn vị: phần triệu). Nhập giá trị từ 0 đến 1.</small>
+            
+            <label for="RM">RM (Số phòng trung bình):</label>
+            <input type="number" step="0.1" min="1" max="10" name="RM" required>
+            <small>Số phòng trung bình cho mỗi căn nhà. Nhập từ 1 đến 10 phòng.</small>
+            
+            <label for="AGE">AGE (Tỷ lệ nhà xây trước 1940):</label>
+            <input type="number" step="1" min="0" max="100" name="AGE" required>
+            <small>Tỷ lệ phần trăm nhà được xây dựng trước năm 1940. Nhập giá trị từ 0 đến 100 (%).</small>
+            
+            <label for="DIS">DIS (Khoảng cách đến trung tâm việc làm):</label>
+            <input type="number" step="0.1" min="0" max="15" name="DIS" required>
+            <small>Khoảng cách trung bình đến 5 trung tâm việc làm lớn ở Boston (đơn vị: miles). Nhập giá trị từ 0 đến 15.</small>
+            
+            <label for="TAX">TAX (Thuế nhà đất):</label>
+            <input type="number" step="1" min="0" max="800" name="TAX" required>
+            <small>Mức thuế bất động sản đầy đủ, tính theo đơn vị $10,000. Nhập giá trị từ 0 đến 800.</small>
+            
+            <label for="B">B (Chỉ số dân số da đen):</label>
+            <input type="number" step="0.1" min="0" max="400" name="B" required>
+            <small>Chỉ số tỷ lệ người da đen: 1000(Bk - 0.63)^2. Nhập giá trị từ 0 đến 400.</small>
+            
+            <label for="LSTAT">LSTAT (Tỷ lệ dân số thu nhập thấp):</label>
+            <input type="number" step="0.1" min="0" max="100" name="LSTAT" required>
+            <small>Tỷ lệ phần trăm dân số có thu nhập thấp. Nhập giá trị từ 0 đến 100 (%).</small>
+            
+            <button type="button" onclick="submitForm()">Dự đoán</button>
+        </form>
+        
+        <!-- Hiển thị kết quả từ các mô hình -->
+        <h3>Kết quả:</h3>
+        <ul>
+            <li>Linear Regression: <span id="result_linear"></span> USD</li>
+            <li>Ridge Regression: <span id="result_ridge"></span> USD</li>
+            <li>Neural Network: <span id="result_mlp"></span> USD</li>
+            <li>Stacking Regressor: <span id="result_stacking"></span> USD</li>
+        </ul>
+    </div>
+
+    <script>
+        function submitForm() {
+            let formData = new FormData(document.getElementById('predictForm'));
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result_linear').innerText = data.predicted_price_linear;
+                document.getElementById('result_ridge').innerText = data.predicted_price_ridge;
+                document.getElementById('result_mlp').innerText = data.predicted_price_mlp;
+                document.getElementById('result_stacking').innerText = data.predicted_price_stacking;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

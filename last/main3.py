@@ -34,11 +34,12 @@ plt.ylabel('Tần số')
 plt.show()
 
 plt.figure(figsize=(10, 6))
-sns.scatterplot(data=housing_data.sample(frac=0.3, random_state=42), x='RM', y='MEDV', alpha=0.7)
+sns.scatterplot(data=housing_data.sample(frac=0.5, random_state=42), x='RM', y='MEDV', alpha=0.8)
 plt.title('Quan hệ giữa số phòng trung bình (RM) và giá nhà (MEDV)')
 plt.xlabel('Số phòng trung bình (RM)')
 plt.ylabel('Giá nhà trung bình (MEDV)')
 plt.show()
+
 
 # Chuẩn bị dữ liệu
 X = housing_data.drop("MEDV", axis=1)  # Các biến độc lập
@@ -102,3 +103,22 @@ print("Linear Regression: MSE = {:.2f}, R^2 = {:.2f}".format(mse_linear, r2_line
 print("Ridge Regression: MSE = {:.2f}, R^2 = {:.2f}".format(mse_ridge, r2_ridge))
 print("Neural Network: MSE = {:.2f}, R^2 = {:.2f}".format(mse_mlp, r2_mlp))
 print("Stacking Regressor: MSE = {:.2f}, R^2 = {:.2f}".format(mse_stacking, r2_stacking))
+
+# Biểu đồ so sánh kết quả các mô hình
+models = ['Linear Regression', 'Ridge Regression', 'Neural Network', 'Stacking Regressor']
+mse_values = [mse_linear, mse_ridge, mse_mlp, mse_stacking]
+r2_values = [r2_linear, r2_ridge, r2_mlp, r2_stacking]
+
+plt.figure(figsize=(12, 6))
+plt.bar(models, mse_values, color='skyblue')
+plt.title('So sánh MSE của các mô hình')
+plt.xlabel('Mô hình')
+plt.ylabel('MSE')
+plt.show()
+
+plt.figure(figsize=(12, 6))
+plt.bar(models, r2_values, color='lightgreen')
+plt.title('So sánh R^2 của các mô hình')
+plt.xlabel('Mô hình')
+plt.ylabel('R^2')
+plt.show()
